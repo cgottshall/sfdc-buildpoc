@@ -7,4 +7,9 @@
     	<echo>Starting Retrieve and Commit</echo>
     </target>
 
+    <target name="bulkRetrieve">             
+	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexClass" retrieveTarget="/src"/>
+	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexComponent" retrieveTarget="/src"/>
+	</target>
+
 </project>
