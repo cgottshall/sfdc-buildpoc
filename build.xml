@@ -1,0 +1,10 @@
+<project name="SalesforceProject" default="retrieveAndCommit" basedir=".">
+    <description>
+        Build file for Salesforce components
+    </description>
+
+    <target name="retrieveAndCommit">
+    	<echo>Starting Retrieve and Commit</echo>
+    </target>
+
+</project>
