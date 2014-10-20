@@ -10,6 +10,11 @@
     	<antcall target="bulkRetrieve"/>
     	<echo>Metadata retrieved</echo>
     	<echo>Starting Commit and Push</echo>
+    	<git command="checkout">
+			<args>
+				<arg value="master" />
+			</args>
+		</git>
     	<git command="status">
 		</git>
     	<antcall target="commitAndPushVersion"/>
