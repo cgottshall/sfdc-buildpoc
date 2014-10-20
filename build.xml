@@ -1,4 +1,4 @@
-<project name="SalesforceProject" default="retrieveAndCommit" basedir="." xmlns:sf="antlib:com.salesforce">
+<project name="SalesforceProject" default="bulkRetrieve" basedir="." xmlns:sf="antlib:com.salesforce">
     <description>
         Build file for Salesforce components
     </description>
@@ -36,7 +36,6 @@
 	</macrodef>
 
 	<target name="commitAndPushVersion" description="Commits all changes to version git">
-		<input message="Commit message" addproperty="commit-message" />
 		
 		<echo message="Commiting all changes with message ${commit-message}" />
 		<git command="add">
@@ -46,7 +45,7 @@
 		</git>
 		<git command="commit">
 			<args>
-				<arg value="-m ${commit-message}" />
+				<arg value="-m 'Automated Commit'" />
 			</args>
 		</git>
 		<git command="push" />
@@ -58,6 +57,6 @@
 	</target>
 	
 
-	
+
 
 </project>
