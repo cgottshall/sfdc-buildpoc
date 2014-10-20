@@ -20,6 +20,7 @@
     <target name="bulkRetrieve">             
 	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexClass" retrieveTarget="/src"/>
 	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexComponent" retrieveTarget="/src"/>
+	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexPage" retrieveTarget="/src"/>
 	</target>
 
 	<macrodef name="git">
