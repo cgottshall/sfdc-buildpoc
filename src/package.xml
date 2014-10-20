@@ -2,12 +2,12 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>AccountHierarchyTree</members>
-        <members>AdNetCampaign_PublisherList</members>
-        <members>AdNetParticipationDetail</members>
-        <members>AdNetworkCampaign_ClientMessage</members>
-        <members>AutocompleteText</members>
-        <members>GoogleMap</members>
+        <members>AdNetParticipation_DocsAndNotes</members>
+        <members>Ad_Network_Campaign_Document_Message</members>
+        <members>SiteFooter</members>
+        <members>SiteHeader</members>
         <members>SiteLogin</members>
+        <members>dataTable</members>
         <name>ApexComponent</name>
     </types>
     <version>31.0</version>
