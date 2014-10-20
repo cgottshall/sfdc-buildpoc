@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>16.0</apiVersion>
+    <description>display component for listing the publisher sites within a publisher group that are participating in the campaign</description>
+    <label>AdNetworkCampaign_PublisherGroup</label>
+</ApexComponent>

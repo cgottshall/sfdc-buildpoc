@@ -1,0 +1,67 @@
+<apex:component controller="AdNetCampaign_PublisherList" selfClosing="true">
+    <apex:attribute name="campaignId" type="String" required="true" description="The record ID for the campaign whose publisher list is to be displayed" assignTo="{!CampaignId}"/>
+    
+    <style type="text/css">
+        .Approved { color:green; font-weight:bold; }
+        .Rejected { color:red; font-weight:bold; }
+        .Pending { color:purple; font-style:italic; }
+        .pubGroupHeading { background-color:#55AA90; color:white; 
+                           font-weight:bold; font-family:Verdana; font-size:12px;
+                           min-width:99%;
+                           padding:2px;
+                         }
+        .pubGroupHeading a { color:white; }
+        ul.pubSiteList { margin:0px; padding:0px; list-style:none; }
+    </style>
+    <script type="text/javascript">
+        //divId is the container of the list, spanId is the id of the indicator (open/closed)
+        function showhide(divId, spanId) {
+            var d = document.getElementById(divId);
+            var si = document.getElementById(spanId);
+            if(d.style.display == 'none')
+            {
+                d.style.display = 'block';
+                si.innerHtml = 'V';
+            }
+            else
+            {
+                d.style.display = 'none';
+                si.innerHtml = '&gt;'
+            }
+        }
+    </script>
+    <apex:form id="publisherGroupForm">
+    
+    <apex:pageBlock title="Publisher Groups">
+        <apex:pageBlockButtons >
+            <apex:commandButton action="{!ChangePublishers}" value="Add/Edit Publishers"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockTable value="{!PublisherGroups}" var="gwrap" cellpadding="0" cellspacing="0" style="margin:0px;" width="100%" rendered="{!PublisherGroups.size > 0}">
+            <apex:column width="30%" headerValue="Publisher Group">
+                <div id="publisherGroup_{!gwrap.publisherGroup.id}" width="100%">
+                    <div id="publisherGroup_{!gwrap.publisherGroup.id}" width="99%" class="pubGroupHeading">
+                        <span style="cursor:hand;" id="publisherGroup_{!gwrap.publisherGroup.id}:indicator" onclick="showhide('publisherGroup_{!gwrap.publisherGroup.id}:siteList', 'publisherGroup_{!gwrap.publisherGroup.id}:indicator');">&gt;</span>&nbsp;
+                        <apex:outputLink value="/{!gwrap.publisherGroup.Id}">{!gwrap.publisherGroup.Account__r.Name}</apex:outputLink>
+                    </div>
+                    <div id="publisherGroup_{!gwrap.publisherGroup.id}:siteList" width="99%">
+                        <ul class="pubSiteList">
+                        <apex:repeat value="{!gwrap.siteList}" var="site">
+                            <li><apex:outputField value="{!site.Account__r.Name}"/></li>
+                        </apex:repeat>
+                        </ul>
+                    </div>
+                </div>
+            </apex:column>
+            <apex:column width="15%" headerValue="Status with Advertiser" style="align:center;">
+                <apex:outputText value="{!gwrap.publisherGroup.Advertiser_Approval__c}" styleClass="{!gwrap.publisherGroup.Advertiser_Approval__c}"/>
+            </apex:column>
+            <apex:column width="15%" headerValue="Status with Publisher Group">
+                <apex:outputText value="{!gwrap.publisherGroup.Account_Approval__c}" styleClass="{!gwrap.publisherGroup.Account_Approval__c}"/>
+            </apex:column>
+            <apex:column width="15%" headerValue="Status with Billing">
+                <apex:outputText value="{!gwrap.publisherGroup.Billing_Approval__c}" styleClass="{!gwrap.publisherGroup.Billing_Approval__c}"/>
+            </apex:column>
+        </apex:pageBlockTable>      
+    </apex:pageBlock>
+    </apex:form>
+</apex:component>

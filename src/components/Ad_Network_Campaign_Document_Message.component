@@ -1,0 +1,14 @@
+<apex:component access="global" controller="AdNetworkCampaignDocumentMessageCtrl" selfClosing="true">
+    <apex:attribute name="documentId" type="Id" description="An Ad_Network_Campaign_Document record ID" assignTo="{!DocumentId}"/>
+    <apex:attribute name="documentAction" type="String" description="Indicates the action that was performed and is prompting a message" assignTo="{!DocumentAction}"/>
+
+    A new {!Document.Document_Type__c} named '{!Document.Name}' has been {!Action} to {!Participation.Account__r.Name} for the {!Campaign.Name} campaign for {!Campaign.Advertiser__r.Name}.
+    
+    {!Document.Comment__c}
+            
+    The document can be viewed at [SALESFORCE_SERVER_URL]/{!Document.Id}.
+    
+    Best regards,
+    {!Document.CreatedBy.Name}
+    
+</apex:component>

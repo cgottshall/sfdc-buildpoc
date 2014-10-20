@@ -1,0 +1,128 @@
+<apex:component controller="GoogleMapController">
+	<apex:attribute name="height" description="This is the map height" type="integer" default="400" />
+	<apex:attribute name="width" description="This is the map width" type="integer" default="550" />
+    <apex:attribute name="mapType" description="mapType: default is 'hybrid'; Possible values are 'normal', 'satellite' or 'hybrid'" type="string" default="normal" />
+
+	<script src="http://maps.google.com/maps?file=api&v=2&key={!forcekey}" type="text/javascript"></script>
+	<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+	<apex:form >
+		<script type="text/javascript">
+			google.load("visualization", "1", {packages:["table"]});
+			google.setOnLoadCallback(drawMap);
+	      
+			function drawMap() {
+	      
+				if (GBrowserIsCompatible()) {
+		            var table = new google.visualization.Table(document.getElementById('{!$Component.table_div}'));
+		            var data = new google.visualization.DataTable();
+					data.addColumn('string', 'Name');
+					data.addColumn('string', 'Type');
+					
+		            var bounds = new GLatLngBounds();
+		            var map = new GMap2(document.getElementById('{!$Component.map_div}'));
+		            //here we're disregarding the mapType attribute and just using the 'normal' map 
+		            //we should implement a switch to determine which constant from GMapType needs to be passed to setMapType
+		            map.setMapType(GMapType.G_NORMAL_MAP);
+					map.setCenter(new GLatLng(0,0), 13);
+					map.setUIToDefault();
+					var latlng;
+					var mk;
+					var description = "";
+					var dataIdx = 0;
+				<apex:repeat value="{!mapItemData}" var="mi">
+				
+					description = "";
+					latlng = new GLatLng({!mi.lat}, {!mi.lon});
+					description = "{!mi.objectName}<BR/>{!mi.description}<BR/>Lat: {!mi.lat}  Lon: {!mi.lon}";
+					mk = createMarker(latlng, dataIdx, "{!mi.objectId}" ,table, description);
+					map.addOverlay(mk);
+					bounds.extend(latlng);
+					
+					data.addRows(1);
+					data.setCell(dataIdx, 0, "{!mi.objectName}");
+					data.setCell(dataIdx, 1, "{!mi.objectType}");
+					dataIdx++;
+						
+	            </apex:repeat>
+					//we want to expand the bounds just slightly to make sure all of our markers appear
+					var boundsExpansionFactor = 0.0000125;
+					var sw = bounds.getSouthWest();
+					var ne = bounds.getNorthEast();
+					var expandedSouthwest = new GLatLng(sw.lat()-(sw.lat()*boundsExpansionFactor), sw.lng()*(1+boundsExpansionFactor));
+					var expandedNortheast = new GLatLng(ne.lat()*(1+boundsExpansionFactor), ne.lng()-(ne.lng()*boundsExpansionFactor));
+					bounds.extend(expandedSouthwest);
+					bounds.extend(expandedNortheast);
+					
+					map.setZoom(map.getBoundsZoomLevel(bounds));
+					
+					map.setCenter(bounds.getCenter());
+					map.enableScrollWheelZoom();
+				  
+					table.draw(data, {showRowNumber: true});    
+			        
+					/*
+					google.visualization.events.addListener(table, 'select', 
+						function() { 
+							map.setSelection(table.getSelection()); 
+						}
+					);
+					*/
+					
+					google.visualization.events.addListener(map, 'select', 
+						function() { 
+							table.setSelection(map.getSelection());
+						}
+					);
+					
+				} //if browser is compatible
+				else {
+					alert('Browser not compatible');
+				}
+			}
+		
+			function createMarker(point, index, id, dt, txts) {
+				var baseIcon = new GIcon(G_DEFAULT_ICON);
+				baseIcon.shadow = "http://www.google.com/mapfiles/shadow50.png";
+				baseIcon.iconSize = new GSize(20, 34);
+				baseIcon.shadowSize = new GSize(37, 34);
+				baseIcon.iconAnchor = new GPoint(9, 34);
+				baseIcon.infoWindowAnchor = new GPoint(9, 2);
+				     
+				var alphabet = index % 26; 
+				var letter = String.fromCharCode("A".charCodeAt(0) + alphabet);
+				var letteredIcon = new GIcon(baseIcon);
+				letteredIcon.image = "http://www.google.com/mapfiles/marker" + letter + ".png";
+				markerOptions = { icon:letteredIcon };
+	           
+				var marker = new GMarker(point, markerOptions);
+	         
+				GEvent.addListener(marker, "click", function() {
+					marker.openInfoWindowHtml(txts);
+					dt.setSelection([{row:index}]);
+				});
+				
+				GEvent.addListener(marker, "mouseover", function() {
+					dt.setSelection([{row:index}]);
+				});
+				
+				return marker;
+			}
+			
+			function getDirections() {
+				var directions = new GDirections();
+				var dirOpts = new GDirectionsOptions();
+				dirOpts.travelMode = GTravelModes.G_TRAVEL_MODE_WALKING;
+				directions.load("from: Seattle to: San Francisco", dirOpts);
+			}
+	    </script>
+	 
+		<apex:panelGrid columns="2">
+			<apex:outputPanel id="map_div" layout="block" style="width: {!width}px; height: {!height}px">
+			</apex:outputPanel>
+		
+			<apex:outputPanel id="table_div" layout="block" style="width: {!width}px; height: {!height}px">
+			</apex:outputPanel>
+		</apex:panelGrid>
+    
+    </apex:form>
+</apex:component>

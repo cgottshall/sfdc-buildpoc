@@ -1,15 +1,60 @@
-<project name="SalesforceProject" default="retrieveAndCommit" basedir=".">
+<project name="SalesforceProject" default="retrieveAndCommit" basedir="." xmlns:sf="antlib:com.salesforce">
     <description>
         Build file for Salesforce components
     </description>
 
+    <property file="build.properties"/>
+
     <target name="retrieveAndCommit">
     	<echo>Starting Retrieve and Commit</echo>
+    	<antcall target="bulkRetrieve"/>
+    	<echo>Metadata retrieved</echo>
+    	<echo>Starting Commit and Push</echo>
+    	<git command="status">
+		</git>
+    	<antcall target="commitAndPushVersion"/>
+    	<git command="status">
+		</git>
     </target>
 
     <target name="bulkRetrieve">             
 	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexClass" retrieveTarget="/src"/>
 	    <sf:bulkRetrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" metadataType="ApexComponent" retrieveTarget="/src"/>
+	</target>
+
+	<macrodef name="git">
+		<attribute name="command" />
+		<attribute name="dir" default="" />
+		<element name="args" optional="true" />
+		<sequential>
+			<echo message="git @{command}" />
+			<exec executable="git" dir="@{dir}">
+				<arg value="@{command}" />
+				<args/>
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<target name="commitAndPushVersion" description="Commits all changes to version git">
+		<input message="Commit message" addproperty="commit-message" />
+		
+		<echo message="Commiting all changes with message ${commit-message}" />
+		<git command="add">
+			<args>
+				<arg value="." />
+			</args>
+		</git>
+		<git command="commit">
+			<args>
+				<arg value="-m ${commit-message}" />
+			</args>
+		</git>
+		<git command="push" />
+	</target>
+
+	<target name="gitStatus" description="Tests the availability of the Git command">
+		<git command="status">
+		</git>
 	</target>
 
 </project>

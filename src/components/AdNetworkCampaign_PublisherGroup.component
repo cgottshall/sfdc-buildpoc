@@ -1,0 +1,6 @@
+<apex:component controller="AdNetCampaign_PublisherGroupController">
+    <apex:attribute name="campaign" description="This is the active Ad Network Campaign." type="Ad_Network_Campaign__c" required="true"/>
+    <apex:attribute name="publisherGroupName" description="This is the name of the publisher group to display." type="String" required="true"/>
+    
+  
+</apex:component>

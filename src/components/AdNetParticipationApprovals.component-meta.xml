@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>17.0</apiVersion>
+    <description>Status of the various approvals required for a relationship (Ad_Network_Campaign_Participation__c)</description>
+    <label>AdNetParticipationApprovals</label>
+</ApexComponent>

@@ -1,0 +1,35 @@
+<apex:component controller="AdNetCampaign_ClientMessage" selfClosing="true">
+    <apex:attribute id="campaignId" name="campaignId" type="Id" description="Campaign ID to which the message is related" assignTo="{!CampaignId}"/>
+    <apex:attribute id="documentId" name="documentId" type="Id" description="Document ID to which the message is related" assignTo="{!DocumentId}"/>
+    <apex:form id="messageForm">
+        <apex:pageBlock >
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton id="cmdSend" value="Send Message" action="{!Send}"/>
+                <apex:commandButton value="Cancel" action="{!Cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Document ID"/>
+                    <apex:outputText value="{!documentId}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Subject"/>
+                    <apex:inputText value="{!Subject}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Send To"/>
+                    <apex:dataTable value="{!Contacts}" var="c" id="contactTable">
+                        <apex:column >
+                            <apex:inputCheckbox value="{!c.selected}" />
+                        </apex:column>
+                        <apex:column value="{!c.Contact.Name}"></apex:column>
+                    </apex:dataTable>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Message"/>
+                    <apex:inputTextarea id="messageBody" cols="150" rows="20" value="{!MessageBody}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:component>

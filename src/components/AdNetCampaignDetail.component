@@ -1,0 +1,90 @@
+<apex:component controller="AdNetCampaignDetailComponentController">
+    <apex:attribute name="campaign" required="true" type="Ad_Network_Campaign__c" assignTo="{!campaign}" description="The Ad Network Campaign"/>
+
+    <apex:pageBlockSection >
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Campaign Name</apex:outputLabel>
+          <apex:outputText >{!campaign.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Status</apex:outputLabel>
+          <apex:outputText >{!campaign.Status__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem rendered="{!campaign.RecordType.Name == 'National'}">
+          <apex:outputLabel >Sales Assistant</apex:outputLabel>
+          <apex:outputText >{!campaign.Sales_Assistant__r.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem rendered="{!campaign.RecordType.Name == 'DAP'}">
+          <apex:outputLabel >DAP Manager</apex:outputLabel>
+          <apex:outputText >{!campaign.DAP_Manager__r.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Campaign Number</apex:outputLabel>
+          <apex:outputText >{!campaign.Campaign_Number__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Sales Rep</apex:outputLabel>
+          <apex:outputText >{!campaign.Sales_Rep__r.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Advertiser</apex:outputLabel>
+          <apex:outputLink value="/{!campaign.Advertiser__r.Id}"><apex:outputText >{!campaign.Advertiser__r.Name}</apex:outputText></apex:outputLink>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem rendered="{!campaign.RecordType.Name == 'National'}">
+          <apex:outputLabel >NSP</apex:outputLabel>
+          <apex:outputText >{!campaign.NSP__r.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem rendered="{!campaign.RecordType.Name == 'DAP'}">
+          <apex:outputLabel >Account Specialist</apex:outputLabel>
+          <apex:outputText >{!campaign.Account_Specialist__r.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Agency</apex:outputLabel>
+          <apex:outputText >{!campaign.Agency__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Owner</apex:outputLabel>
+          <apex:outputText >{!campaign.Owner.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Sales Team</apex:outputLabel>
+          <apex:outputText >{!campaign.RecordType.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >IO Flight Start Date</apex:outputLabel>
+          <apex:outputText >{!campaign.IO_Flight_Start_Date__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >IO Flight End Date</apex:outputLabel>
+          <apex:outputText >{!campaign.IO_Flight_End_Date__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Billing Numbers Source</apex:outputLabel>
+          <apex:outputText >{!campaign.Billing_Numbers__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Flight Duration</apex:outputLabel>
+          <apex:outputText >{!campaign.Flight_Duration__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Budget</apex:outputLabel>
+          <apex:outputText >{!campaign.Budget__c}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Publisher Site Count</apex:outputLabel>
+          <apex:outputField value="{!campaign.Publisher_Site_Count__c}"/>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Created By</apex:outputLabel>
+          <apex:outputText >{!campaign.CreatedBy.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel >Last Modified By</apex:outputLabel>
+          <apex:outputText >{!campaign.LastModifiedBy.Name}</apex:outputText>
+      </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+</apex:component>

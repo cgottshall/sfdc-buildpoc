@@ -1,0 +1,116 @@
+<apex:component controller="AutocompleteTextController" >
+
+	<!-- <apex:includeScript value="{!$Resource.jQueryTagIt}" />
+	<apex:stylesheet value="{!$Resource.TagItTheme}" />
+	 -->
+	<apex:attribute name="object" type="String" description="Type of object to query for"  assignTo="{!objectName}"/>
+	<apex:attribute name="value" type="sObject[]" description="Where to store the sObjects being tagged, and initial objects if any" assignTo="{!retObjects}" />
+	<apex:attribute name="title" type="String" default="" description="Optional title" />
+	<apex:attribute name="display_fields" type="String" default="" description="Fields to show in the autocomplete menu" />
+	<apex:attribute name="query_fields" type="String" default="" description="Other fields to query and return" assignTo="{!queryFields}"/>
+	<apex:attribute name="search_fields" type="String" default="" description="Other fields to search" />
+	<apex:attribute name="removed_list" type="sObject[]" description="Optional list to store removed objects (if any were originally passed in)" assignTo="{!removedObjects}"/>
+	<apex:attribute name="min_length" type="Integer" default="3" description="Minimum number of characters requred to kick-off the search" />
+	<apex:attribute name="category" type="String" default="" description="Object Field to group autocomplete results by" />
+	<apex:attribute name="hover" type="Boolean" default="false" description="Enable/disable hover ability" />
+	<apex:attribute name="employees" type="Boolean" default="false" description="Only valid for contacts. True if you want to search on employee records." assignTo="{!EmployeeSwitch}"/>
+	<apex:attribute name="tagLimit" type="Integer" default="0" description="Number of tags allowed at any one time." />
+	<apex:attribute name="style" type="String" default="" description="Style to apply to the autocomplete box" />
+	
+	<apex:outputLabel value="{!title}" styleClass="pbTitle" rendered="{!title != ''}" />
+	
+	<apex:outputPanel layout="block" style="position:relative;" >
+		<apex:dataList id="autocompleteBox" value="{!InitObjects}" var="sobj" style="{!style}">
+			<li >{!sobj.name}~{!sobj.id}</li>
+		</apex:dataList>
+		<apex:image id="loadingIndicator" styleClass="{!SUBSTITUTE($Component.loadingIndicator,':','')}loading" value="/img/loading.gif" style="display:none;position:absolute;right:15px;top:5px;z-index:1000;"/>
+		<apex:outputText id="noResultsIndicator" styleClass="{!SUBSTITUTE($Component.noResultsIndicator,':','')}noresults" value="No Results Found!" style="color:red;display:none;position:absolute;right:20px;top:5px;z-index:1000;"/>
+	</apex:outputPanel>
+	
+	<apex:actionFunction id="AddObjActFun" action="{!AddObject}" name="{!SUBSTITUTE($Component.AddObjActFun,':','')}ControllerAddObject" rerender="">
+		<apex:param name="objId" assignTo="{!addObjId}" value="" />
+	</apex:actionFunction>
+	
+	<apex:actionFunction id="RemoveObjActFun" action="{!RemoveObject}" name="{!SUBSTITUTE($Component.RemoveObjActFun,':','')}ControllerRemoveObject" rerender="">
+		<apex:param name="objId" assignTo="{!remObjId}" value="" />
+	</apex:actionFunction>
+	
+	
+	<script type="text/javascript">
+		(function($) {
+			$(document).ready( function () {
+				$(esc('{!$Component.autocompleteBox}')).tagit({
+					allowSpaces: true,
+					removeConfirmation: true,
+					minLength: {!min_length},
+					hoverEnabled: {!hover},
+					tagLimit: {!tagLimit},
+					tagSource: function(request, response){
+						$('.{!SUBSTITUTE($Component.loadingIndicator,':','')}loading').show();
+						AutocompleteTextController.getObjectsForAutocomplete(
+							"{!object}", 
+							request.term, 
+							"{!IF(category == '', display_fields, display_fields + ',' + category)}", 
+							"{!search_fields}", 
+							"{!category}",
+							"{!employees}",
+							function(result, event){
+								$('.{!SUBSTITUTE($Component.loadingIndicator,':','')}loading').hide();
+								if(result.length == 0){
+									$('.{!SUBSTITUTE($Component.noResultsIndicator,':','')}noresults').fadeIn('slow', function(){
+										$(this).fadeOut('slow');
+									});
+								}
+								var arr = new Array();
+			                    arr = $.map(result,function(el,i)
+			                    {
+			                    	if(el == undefined){
+			                    	 	return null;
+			                    	}
+			                    	var dispString;
+			                    	if('{!display_fields}' == ''){
+			                    		dispString = el.Name;
+			                    	}
+			                    	else {
+				                    	var dispfields = '{!display_fields}'.split(',');
+				                    	dispfields = $.map(dispfields, function (elem, ind)
+				                    	{
+				                    		try{
+				                    			var trans = eval('el.' + elem);
+				                    			return trans;
+			                    			}
+				                    		catch(err){
+				                    			return null;
+				                    		}
+				                    	});
+				                    	
+				                    	dispString = dispfields.join(', ');
+				                    	dispString = $('<div/>').html(dispString).text();
+			                    	}
+			                        return { label: dispString, value: el.Name, sfid: el.Id, category: {!IF(category != "", "el."+category,"''")} };
+			                    });  
+		                               
+		                    	response(arr);
+							}); 
+					},
+					onTagClicked: function (event, tag){
+						window.open("/" + $(tag).children('input').val());
+					},
+					onTagAdded: function (event, tag){
+						{!SUBSTITUTE($Component.AddObjActFun,':','')}ControllerAddObject($(tag).children('input').val(), "{!query_fields}");
+					},
+					onTagRemoved: function (event, tag){
+						{!SUBSTITUTE($Component.RemoveObjActFun,':','')}ControllerRemoveObject($(tag).children('input').val());
+					}
+				});
+				
+				function esc(myid) 
+		        {
+		           return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
+		        }
+			});
+		})(jQuery);
+	</script>
+	
+	
+</apex:component>

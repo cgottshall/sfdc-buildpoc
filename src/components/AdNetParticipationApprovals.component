@@ -1,0 +1,34 @@
+<apex:component selfClosing="true" controller="AdNetParticipation_Approvals" rendered="{!participation.RecordType.Name == 'Publisher Group'}" allowDML="true">
+    <apex:attribute name="participationId" type="string" required="true" description="the participation record's ID" assignTo="{!ParticipationId}"/>
+    <style type="text/css">
+        .Approved { color:green; font-weight:bold; }
+        .Rejected { color:red; font-weight:bold; }
+        .Pending { color:purple; font-style:italic; }
+    </style>
+    <apex:form id="participationApprovalsForm">
+        <apex:pageBlock title="Relationship Status">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton action="{!AdvertiserApproved}" value="Advertiser Approved" rendered="{!Participation.Advertiser_Approval__c != 'Approved' && Participation.Advertiser_Approval__c != 'Rejected'}"/>
+                <apex:commandButton action="{!AdvertiserRejected}" value="Advertiser Rejected" rendered="{!Participation.Advertiser_Approval__c != 'Approved' && Participation.Advertiser_Approval__c != 'Rejected'}"/>
+                <apex:commandButton action="{!AccountApproved}" value="{!Participation.RecordType.Name} Approved" rendered="{!Participation.Account_Approval__c != 'Approved' && Participation.Account_Approval__c != 'Rejected'}"/>
+                <apex:commandButton action="{!AccountRejected}" value="{!Participation.RecordType.Name} Rejected" rendered="{!Participation.Account_Approval__c != 'Approved' && Participation.Account_Approval__c != 'Rejected'}"/>
+                <apex:commandButton action="{!BillingApproved}" value="Billing Approved" rendered="{!Participation.Billing_Approval__c != 'Approved' && Participation.Billing_Approval__c != 'Rejected'}"/>
+                <apex:commandButton action="{!BillingRejected}" value="Billing Rejected" rendered="{!Participation.Billing_Approval__c != 'Approved' && Participation.Billing_Approval__c != 'Rejected'}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Advertiser Approval"/>
+                    <apex:outputText value="{!Participation.Advertiser_Approval__c}" styleClass="{!Participation.Advertiser_Approval__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!Participation.RecordType.Name} Approval"/>
+                    <apex:outputText value="{!Participation.Account_Approval__c}" styleClass="{!Participation.Account_Approval__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Approved by Billing"/>
+                    <apex:outputText value="{!Participation.Billing_Approval__c}" styleClass="{!Participation.Billing_Approval__c}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:component>

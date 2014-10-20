@@ -1,0 +1,49 @@
+<apex:component >
+    <apex:attribute id="participation" name="participation" required="true" description="The participation whose details are to be displayed" type="Ad_Network_Campaign_Participation__c"/>
+    <apex:variable var="partAcc" value="{!participation.Account__r}"/>
+    <apex:variable var="campaign" value="{!participation.Ad_Network_Campaign__r}"/>
+
+<apex:form id="detailForm">
+    <apex:pageBlock id="pbParticipationDetail" title="Ad Network Campaign {!participation.RecordType.Name}"> 
+        <apex:pageBlockSection >
+            <apex:pageBlockSectionItem >
+            <apex:outputText value="{!participation.RecordType.Name}"/>
+            <apex:outputText >
+                <apex:outputLink value="/{!partAcc.Id}"><apex:outputText value="{!partAcc.Name}"/></apex:outputLink>
+                <apex:outputText value="  ({!partAcc.parent.Name})" rendered="{!participation.RecordType.Name =='Publisher'}"/>
+            </apex:outputText>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText >Advertiser</apex:outputText>
+                <apex:outputText >{!campaign.Advertiser__r.Name}</apex:outputText>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText >Agency</apex:outputText>
+                <apex:outputText >{!partAcc.Primary_Agency__r.Name}</apex:outputText>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText value="Added By"/>
+                <apex:outputLink value="/{!participation.CreatedBy.Id}">{!participation.CreatedBy.Name}</apex:outputLink>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText value="Campaign"/>
+                <apex:outputLink value="/{!campaign.Id}"><apex:outputText value="{!campaign.Name}"/></apex:outputLink>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText value="Added"/>
+                <apex:outputText value="{!participation.CreatedDate}"/>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText value="Advertiser" rendered="{!participation.RecordType.Name =='Publisher'}"/>
+                <apex:outputText value="{!campaign.Advertiser__r.Name}" rendered="{!participation.RecordType.Name =='Publisher'}"/>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputText value="Last Modified By"/>
+                <apex:outputLink value="/{!participation.LastModifiedBy.Id}">{!participation.LastModifiedBy.Name}</apex:outputLink>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+</apex:form>
+
+</apex:component>

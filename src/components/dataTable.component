@@ -1,0 +1,37 @@
+<apex:component >
+
+	<apex:attribute name="jsondata" description="This is the chart data" type="string" required="true"/>
+   	<apex:attribute name="barformat" description="Apply barformat to this column" type="string" default="-1"/>
+	<apex:attribute name="barwidth" description="width of bars, if barformat is used" type="integer" default="90"/>
+		
+	<apex:outputPanel id="chart_div">
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+    
+ google.load("visualization", "1", {packages: ["table"]});
+ google.setOnLoadCallback(drawTable);
+ 
+ function drawTable() {
+  var data = new google.visualization.DataTable( eval( '({!jsondata})' ) );
+ 
+  if ( "{!barformat}" != "-1" ) { // Apply formatter to this column
+  	var formatter = new google.visualization.TableBarFormat({width: {!barwidth}});
+  	formatter.format(data, {!barformat}); 
+  }
+  
+  var table = new google.visualization.Table(  
+  	document.getElementById('{!$Component.chart_div}'));
+
+   table.draw(data, {allowHtml: true, showRowNumber: true});
+   
+   /*
+   google.visualization.events.addListener(table, 'select', function() {
+    var row = table.getSelection()[0].row;
+   	// alert('You selected ' + data.getValue(row, 0));
+    window.location.href = '/'+data.getValue(row, 0);
+   });*/
+ 
+ }
+</script>
+	</apex:outputPanel>
+</apex:component>
