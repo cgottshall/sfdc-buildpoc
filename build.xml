@@ -45,7 +45,7 @@
 		</git>
 		<git command="commit">
 			<args>
-				<arg value="-m 'Automated Commit'" />
+				<arg value="-m Automated Commit" />
 			</args>
 		</git>
 		<git command="push" />
