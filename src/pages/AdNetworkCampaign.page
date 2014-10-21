@@ -1,0 +1,12 @@
+<apex:page standardController="Ad_Network_Campaign__c" extensions="AdNetworkCampaign_Extension">
+    <apex:detail relatedList="false"/>
+
+    <c:AdNetCampaign_PublisherList campaignId="{!Ad_Network_Campaign__c.Id}"/>
+    
+    <c:AdNetParticipation_DocsAndNotes title="Advertiser Documents" participationId="{!AdvertiserParticipation.Id}"/>
+    
+    <apex:relatedList list="OpenActivities" />
+    <apex:relatedList list="ActivityHistories"/>
+    <apex:relatedList list="Ad_Network_Campaign_Comments__r"/>
+
+</apex:page>

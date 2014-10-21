@@ -1,0 +1,61 @@
+<apex:page >
+  <h1>Find Nearby Accounts Setup Guide</h1> <br/><br/>
+  
+  <h1>Step 1:</h1> Go to Setup->Security Controls -> Remote Site Settings.<br/>
+  Create a new Remote Site. <br/>Name = "GoogleMaps"  <br/>URL = "http://maps.google.com" <br/>
+  <br/>
+  This allows Salesforce to communicate with Google Maps. 
+  <br/><br/> <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=ugJIo7eE9Uk'/></object>
+  <br/><br/>
+  <br/><br/>
+  
+  <h1>Step 2:</h1> Put the 2 Custom Fields (Which Address to Map, Find Nearby Accounts Status) and 1 Custom Link (Find Nearby Accounts) on the Account Page.<br/><br/>
+  <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=Ph6T4sfxVpA'/></object><br/><br/>
+  
+  <br/><br/>
+  
+  What do the fields mean? <br/>
+      Which Address to Map: Do you want to map the Billing Address, Shipping Address, or not map this account at all? 
+      Find Nearby Accounts Status: The Account will only appear on a map if it has a status of "Located"
+  <br/><br/>
+     <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=KNDa7eb75pw'/></object>
+  <br/><br/>
+  <br/><br/>
+   
+  <h1>Step 3:</h1> Copy the first part of the URL of the Find Nearby Accounts page.  Register that page with Google Maps to generate a key. Put that key in the Custom Label "GeoApiKey"
+  <br/><br/>
+      <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=PgXzfXOVN7I'/></object>
+  <Br/><br/>
+  <a target="_blank" href="http://code.google.com/apis/maps/signup.html">Sign Up Page</a>
+  <br/><br/>
+  <br/><br/>
+  
+  <h1>Step 4:</h1> Test the Google Key. Go to an individual account, that has a good address.  Set the Which Address to Map field to that address, hit save.  And then click the Find Nearby Accounts Link.  If you see a map, your key is correct.  If you don't you need to go back to the previous step and get a new API key. (Perhaps you copied the URL incorrectly). <br/><br/>
+  <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=BT1w_uoLeTo'/></object>
+  <br/><br/>
+  <br/><br/>
+  
+  
+  <h1>Step 5:</h1> Mass Locate your Accounts.  Each Account needs to be located before it can appear on a map.  Because you don't want to locate all your accounts one by one, we need to use the "Mass Locate Accounts" Tab.  This Tab will go through all of your accounts that don't have a "Problem with Address" status, and attempt to locate them.  If you don't set the "Which Address to Map" field, it will default to Billing. The flag on the tab will turn Green when it is done going through all of your accounts. You must leave the page open while it is doing its work.  The page will attempt to locate 10 accounts every 5 seconds. 
+  <br/><br/>
+  <br/><br/>
+      <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=2nzGFl3IQ1U'/></object>
+  <br/><br/>
+  <br/><br/>
+  
+  
+  <h1>Things to watch out for</h1>
+  <br/><br/>
+  <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=0pA2_UzIwjs'/></object>
+  <br/><br/>
+  <br/><br/>
+  
+  
+  <h1>Demonstration of Find Nearby Accounts</h1>
+  <br/><br/>
+  <object width='577' height='403' data='http://embed.screenjelly.com/swf/SJPlayer.swf' type='application/x-shockwave-flash' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0'><param name='movie' value='http://embed.screenjelly.com/swf/SJPlayer.swf'/><param name='allowScriptAccess' value='always'/><param name='allowFullScreen' value='true' /><param name='flashvars' value='video=6aJg3FxOQy4'/></object>
+  <br/><br/>
+  <br/><br/>
+  
+  
+</apex:page>

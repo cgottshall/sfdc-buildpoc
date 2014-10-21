@@ -1,0 +1,13 @@
+<apex:page standardController="Ad_Network_Campaign__c" extensions="AdNetworkCampaign_Message">
+  <apex:sectionHeader title="Ad Network Campaign" subtitle="Send a Message"/>
+  <apex:messages />
+
+  <apex:outputPanel >
+      <apex:messages />
+  </apex:outputPanel>
+  <apex:pageBlock >
+      <c:AdNetCampaignDetail campaign="{!Ad_Network_Campaign__c}"/>
+  </apex:pageBlock>
+  
+  <c:AdNetworkCampaign_ClientMessage campaignId="{!Ad_Network_Campaign__c.Id}" documentId="{!DocumentId}" />
+</apex:page>

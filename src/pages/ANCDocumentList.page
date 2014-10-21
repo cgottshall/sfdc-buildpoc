@@ -1,0 +1,21 @@
+<apex:page standardController="Ad_Network_Campaign_Participation__c">
+  <apex:variable var="documents" value="{!Ad_Network_Campaign_Participation__c.Ad_Network_Campaign_Documents__r}"/>
+  <apex:pageBlock >
+    <apex:pageBlockSection >
+      <apex:dataTable value="{!documents}" var="d" width="100%">
+        <apex:column width="200">
+          <apex:facet name="header">Document Name</apex:facet>
+          <apex:outputText value="{!d.Name}"/>
+        </apex:column>
+        <apex:column width="100">
+          <apex:facet name="header">Type</apex:facet>
+          <apex:outputText value="{!d.Document_Type__c}"/>
+        </apex:column>
+        <apex:column >
+          <apex:facet name="header">Created By</apex:facet>
+          <apex:outputText value="{!d.CreatedBy.Name}"/>
+        </apex:column>
+      </apex:dataTable>
+    </apex:pageBlockSection>
+  </apex:pageBlock>
+</apex:page>

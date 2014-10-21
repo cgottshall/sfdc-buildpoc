@@ -1,0 +1,26 @@
+<apex:page controller="FNA_BulkCon" >
+<style> body {background: #F3F3EC;}</style>
+  <apex:form id="all">
+  <h1><apex:image value="/img/samples/flag_red.gif" rendered="{!Finished}"/> <apex:image value="/img/samples/flag_green.gif" rendered="{! !Finished}"/>&nbsp; &nbsp; {!msg}</h1><br/><br/><br/>
+  <table>
+      <tr>
+          <td><h2>Total Attempts:</h2></td><td> {!TotalTries}</td>
+      </tr>
+      <tr>
+          <td><h2># of Successes:</h2></td><td> {!TotalHits}</td>
+      </tr>
+      <tr>
+          <td><h2># of Failures:</h2> </td><td> {!TotalMisses}</td>
+      </tr>
+  </table>
+  <table cellpadding="50">
+  <tr>
+      <td>
+          <apex:image value="http://chart.apis.google.com/chart?chs=350x100&chd=t:{!TotalHits},{!TotalMisses}&cht=p3&chl=Tagged|Not Found" rendered="{!showChart}" /> 
+      </td>
+  </tr>
+  </table>
+  <apex:actionPoller action="{!Main}" interval="5" rerender="all" rendered="{!Finished}" />
+  </apex:form>
+  
+</apex:page>

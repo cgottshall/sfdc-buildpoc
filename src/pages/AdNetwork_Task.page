@@ -1,0 +1,6 @@
+<apex:page standardController="Task" tabStyle="Ad_Network_Campaign__c" extensions="AdNetworkTask">
+    <apex:form id="taskForm">
+        <apex:outputLabel value="Assigned To"/>
+        <apex:inputText id="ptsQueue" required="true" value="{!PtsQueue}"/>
+    </apex:form>
+</apex:page>

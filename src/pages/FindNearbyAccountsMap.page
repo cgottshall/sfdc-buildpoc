@@ -1,0 +1,221 @@
+<apex:page tabStyle="Account" controller="FNA_MapCon"showHeader="true" action="{!init}" sidebar="false">
+    <style> body {background: #F3F3EC;}
+            .accountBlock, .bPageBlock {border-left: thin solid #236FBD ; }
+    </style>
+    <script src="http://maps.google.com/maps?file=api&v=2&key={!$Label.GeoApiKey}" type="text/javascript"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+
+ 
+<script type="text/javascript">
+ var directions;   
+ if( {!error} == true)
+ { 
+        alert("{!msg}");
+ }
+ 
+ google.load('visualization', '1', {packages: ['table']});
+ google.setOnLoadCallback(DrawMap);
+          
+    function DrawMap() { 
+        if (GBrowserIsCompatible()) {
+            var map = new GMap2(document.getElementById('{!$Component.map_div}'));
+            var table = new google.visualization.Table(document.getElementById('{!$Component.dTable}'));
+            var data = new google.visualization.DataTable();
+            var bounds = new GLatLngBounds();
+            
+            var x = 0;         
+            var myMarker = "A";
+            map.setCenter(new GLatLng(0,0), 13);
+            map.setUIToDefault();
+            
+            data.addColumn('string', 'Account Name');
+            data.addColumn('string', 'Type');
+            data.addColumn('string', 'Dist. (mi)');
+            data.addColumn('string', 'Map Point');
+            
+            var allMs =new Array();
+            var allMsgs= new Array();
+            
+           
+          <apex:repeat value="{!locations}" var="l" id="theRepeat">
+          
+            var mk;
+            var msg; 
+           
+            data.addRows(1); 
+            
+            var latlng = new GLatLng({!l.lat}, {!l.Lon}); 
+            var glatlng2 = new GLatLng({!mainAccount.lat__c}, {!mainAccount.Lon__c});
+            var miledistance = latlng.distanceFrom(glatlng2, 3959).toFixed(1);
+            
+            var abcd = "<a target=\'_blank\' href=\'/{!l.id}\'>{!l.Name}</a><br/><a target=\'_blank\' href=\'http://www.maps.google.com?q={!l.URLCleanAddress}\'>{!l.Street}</a><br/>{!l.phone}";
+                mk = createMarker(latlng, x,"{!l.Id}",table,abcd);
+            
+            bounds.extend(mk.getPoint());
+            map.addOverlay(mk); 
+            
+            allMs[x]= mk; 
+            allMsgs[x]= abcd;
+            
+            data.setCell(x, 0, "{!l.Name}");
+            data.setCell(x, 1, "{!l.Type}");  
+            data.setCell(x, 2, miledistance);
+            
+            if('{!l.ID}' == '{!ID}'){
+                data.setCell(x, 3, "*"+String.fromCharCode(myMarker.charCodeAt(0) + (x % 26)+"")+"*");
+            }
+            else{
+                data.setCell(x, 3, String.fromCharCode(myMarker.charCodeAt(0) + (x % 26)+""));                
+            }
+            
+            x+=1;
+            </apex:repeat>
+            table.draw(data, {showRowNumber: false});
+            
+            map.setZoom(map.getBoundsZoomLevel(bounds));
+            map.setCenter(bounds.getCenter());
+            map.setUIToDefault();
+           map.removeMapType(G_SATELLITE_MAP );
+           map.removeMapType(G_PHYSICAL_MAP );
+           //map.setZoom(map.getBoundsZoomLevel(bounds));
+           //map.setCenter(bounds.getCenter());
+          //  map.addControl(new GMapTypeControl());
+         // map.enableDoubleClickZoom();
+          
+           
+           google.visualization.events.addListener(table, 'select',function() { 
+                var selection = table.getSelection();
+                for (var i = 0; i < selection.length; i++) {
+                    var item = selection[i];
+                    allMs[item.row].openInfoWindowHtml(allMsgs[item.row]);
+                }
+            } );
+        }
+    }
+    
+    function createMarker(point, index, id, dt, txts) {
+           var baseIcon = new GIcon(G_DEFAULT_ICON);
+                baseIcon.shadow = "http://www.google.com/mapfiles/shadow50.png";
+                baseIcon.iconSize = new GSize(20, 34);
+                baseIcon.shadowSize = new GSize(37, 34);
+                baseIcon.iconAnchor = new GPoint(9, 34);
+                baseIcon.infoWindowAnchor = new GPoint(9, 2);
+                
+                
+           if(id != '{!Id}')
+           {
+              var alphabet = index % 26; 
+              var letter = String.fromCharCode("A".charCodeAt(0) + alphabet);
+              var letteredIcon = new GIcon(baseIcon);
+              letteredIcon.image = "http://www.google.com/mapfiles/marker" + letter + ".png";
+              markerOptions = { icon:letteredIcon };
+             
+           }
+           else{
+              baseIcon.image = "{! $Resource.PaleBlue }";
+              markerOptions = { icon:baseIcon};
+           }
+           
+           var marker = new GMarker(point, markerOptions);
+         
+           GEvent.addListener(marker, "click", function() {
+              marker.openInfoWindowHtml(txts);
+              dt.setSelection([{row:index}]);
+           });
+                 
+           GEvent.addListener(marker, "mouseover", function() {
+                dt.setSelection([{row:index}]);
+           });
+                 
+           return marker;
+     }
+    
+</script>
+
+<apex:SectionHeader title="Find Accounts Near" subtitle="{!mainAccount.name}"> 
+
+<table align="center" cellspacing="15">
+<apex:form > 
+<tr>
+    <td colspan="2" align="center"><apex:commandButton action="{!goBack}" value="Back to {!mainAccount.name} record"/></td>
+</tr>
+</apex:form>
+<tr>
+<td valign="top">
+<apex:outputPanel id="map_div" layout="block" style="width:575px; height:315px; border:thin solid #236FBD ;"></apex:outputPanel>
+<br/>
+<apex:form >
+    <apex:pageBlock Title="Change your Search" >
+        <apex:pageBlockSection title="Options" columns="2"  collapsible="false" id="pbSec">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Search by:" for="sType"/>  
+                        <apex:selectRadio value="{!SearchType}" id="sType" >
+                            <apex:selectOptions value="{!SearchTypes}" />
+                        <apex:actionSupport event="onclick" rerender="pbSec"/>
+                        </apex:selectRadio>
+                </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem > &nbsp;</apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem id="cty" rendered="{! !showDist}">
+               <apex:outputLabel value="City:" for="city"/> 
+               <apex:inputText value="{!city}" id="city"/>   
+           </apex:pageBlockSectionItem> 
+           <apex:pageBlockSectionItem id="dis" rendered="{! showDist}">
+               <apex:outputLabel value="Distance to Search (in Miles):" for="ADist"/>
+                    <apex:selectList value="{!Distance}" multiselect="false" id="ADist" size="1">
+                        <apex:selectOptions value="{!Distances}"/>
+               </apex:selectList>       
+           </apex:pageBlockSectionItem>   
+           <apex:pageBlockSectionItem > 
+           		<apex:outputLabel value="Only my Accounts:" for="myAccounts"/>
+           		<apex:inputCheckbox value="{!onlyMyAccounts}" id="myAccounts"/>
+           </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem >
+               <apex:outputLabel value="Account Type(s) to Search For:" for="Atype"/>
+                    <apex:selectList value="{!Types}" multiselect="true" id="Atype" size="5">
+                        <apex:selectOptions value="{!items}"/>
+                    </apex:selectList>
+           </apex:pageBlockSectionItem>
+           <apex:pageBlockSectionItem > <apex:commandButton action="{!Search}" value="Search Again" /></apex:pageBlockSectionItem>
+        
+           </apex:pageBlockSection>
+            
+           <apex:pageblockSection title="Directions" columns="2"  collapsible="false" id="Dirchoice" >
+              <!-- From Drop Down :Afrom--> 
+                <apex:pageBlockSectionItem id="cdir">  
+                	<apex:outputLabel value="From: " for="Cfrom"/>
+                    <apex:inputText value="{!fromAdd}" size="24" id="cFrom"/> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem > &nbsp;</apex:pageBlockSectionItem>
+                  <apex:pageBlockSectionItem > 
+                    <apex:outputLabel value="To:" for="Tfrom"/>
+                        <apex:selectList value="{!ToAdd}" multiselect="false" id="Tfrom" size="1"  >
+                            <apex:selectOptions value="{!Places}"/>
+                    	</apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:commandLink style="text-decoration: none;" target="_new" action="{!makeIten}">
+                        <apex:commandButton value="Get Directions"/>
+                    </apex:commandLink>
+                </apex:pageBlockSectionItem>
+           </apex:pageBlockSection>
+           <apex:pageBlockSection title="Itinerary" columns="1" collapsible="false">
+           <apex:pageBlockSectionItem dataStyle="text-Align: center; align: center;">
+                    <apex:commandLink style="text-decoration: none;" target="_self" action="{!goToIten}">
+                        <apex:commandButton value="Create Itinerary"/>
+                    </apex:commandLink>
+                </apex:pageBlockSectionItem>
+           </apex:pageBlockSection>
+   
+    </apex:pageBlock>
+</apex:form>
+</td>
+<td valign="top"> 
+<apex:outputPanel id="dTable"  layout="block" style="width:500px; align:top; border: thin solid #236FBD; "></apex:outputPanel>
+</td>
+</tr>
+
+</table>
+</apex:SectionHeader>
+
+</apex:page>

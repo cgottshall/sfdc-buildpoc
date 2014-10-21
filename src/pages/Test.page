@@ -1,0 +1,19 @@
+<apex:page >
+  <apex:form >
+      <script>
+          function getList() {
+          var list = document.getElementById('{!$Component.pbListContainer.selList}');
+          alert(list);
+          }
+      </script>
+      <apex:pageBlock id="pbListContainer">
+          <apex:selectList id="selList">
+              <apex:selectOption >test</apex:selectOption>
+          </apex:selectList>
+      </apex:pageBlock>
+      
+      
+      
+      <apex:inputCheckbox id="chkInput" onchange="getList();"/>
+  </apex:form>
+</apex:page>

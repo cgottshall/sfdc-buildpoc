@@ -1,0 +1,5 @@
+<apex:page sidebar="false" controller="GoogleMapController" >
+
+	<c:GoogleMap mapType="normal"/> 
+
+</apex:page>

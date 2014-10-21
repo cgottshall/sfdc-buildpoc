@@ -1,0 +1,89 @@
+<apex:page showHeader="false" expires="1">
+<apex:includeScript value="{!$Resource.jQuery}"/>
+  <DIV>
+      <input type="button" id="btnClearResults" value="Clear" onclick="$('#result').empty().append('RESULTS cleared');" />
+      <div id="result">RESULTS</div>
+  </DIV>
+  <DIV>
+      <input type="button" id="btnClearLog" value="Clear" onclick="$('div.log').empty().append('LOG cleared');" />
+      <div class="log" style="margin-top:100px;border-top:1px solid black;">LOG</div>
+  </DIV>
+  <div id="loginDiv" style="margin-top:100px;border-top:1px solid black;">
+  <form id="loginForm">
+      <input type="text" id="username" value="chris" /><br/>
+      <input type="password" id="secretpass" value="chris" /><br/>
+      <input type="button" id="btnLogin" value="Log In" />
+  </form>
+  </div>
+  <script>
+    $(document).ajaxError(
+        function(event, jqxhr, settings, exception) 
+        {
+            var logDiv = $("div.log").empty();
+            logDiv.append("Triggered ajaxError handler.");
+            logDiv.append("<br/>");
+            logDiv.append("HTTP Error: "+exception);
+        }
+    );
+    
+    /* attach a submit handler to the form */
+    $("#btnLogin").click(function(event) {
+        /* stop form from submitting normally */
+        //event.preventDefault();
+        /* get some values from elements on the page: */
+        var $form = $("#loginForm"),
+        uterm = $form.find( 'input[name="username"]' ).val(),
+        pterm = $form.find( 'input[name="secretpass"]' ).val(),
+        loginurl = "https://christophergottshall.okta.com/api/v1/sessions?additionalFields=cookieTokenUrl";
+        //url = "/apex/dummyjson";
+        /* Send the data using post */
+        var oData = {username:'chris@christophergottshall.com',password:'CGottshall1'};
+        //oData.username = uterm;
+        //oData.password = pterm;
+        //alert(JSON.stringify(oData));
+        var postRequest = {
+                type: "POST",
+                url: "https://christophergottshall.okta.com/api/v1/sessions?additionalFields=cookieTokenUrl",
+                data: {username:'chris@christophergottshall.com',password:'CGottshall1'},
+                contentType:"application/json; charset=utf-8",
+                dataType:"json",
+                headers:{Authorization:"SSWS 00ZF6lBhIemoTv_zjbcD8rtJx4xQbQHIKUgOLPxWp9",Accept:"application/json"}
+            };
+        //alert(JSON.stringify(postRequest));
+        var posting = $.ajax(postRequest);
+        /* Put the results in a div */
+        posting.done(
+            function(data) 
+            {
+                //var dummyjson = jQuery.parseJSON('{"foo":"bar"}');
+                var results = $("#result").empty();
+                results.append("SUCCESS");
+                try{
+                    var content = JSON.stringify(data);
+                    results.append("<br/>Content: "+content);
+                }
+                catch(ex) {
+                    results.append("<br/>Sad Trombone: "+ex.toString());
+                }
+            }
+        );
+        posting.fail(
+            function(data) 
+            {
+                console.log(posting);
+                $("#result").empty().append('ERROR');
+            }
+        );
+        posting.always(
+            function(data)
+            {
+                alert(JSON.stringify(posting));
+                var results = $("#result");
+                results.append('<br/>Status: '+data.statusText);
+                
+            }
+        );
+    });
+    
+</script>
+</apex:page>

@@ -1,0 +1,5 @@
+<apex:page sidebar="false" controller="GoogleMapController" >
+
+<c:dataTable jsondata="{!geoDataTable}" /> 
+
+</apex:page>

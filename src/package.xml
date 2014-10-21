@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AccountHierarchyTree</members>
-        <members>AdNetCampaign_PublisherList</members>
-        <members>AdNetParticipation_DocsAndNotes</members>
-        <members>AdNetworkCampaign_ClientMessage</members>
-        <members>AdNetworkCampaign_PublisherGroup</members>
-        <members>SiteHeader</members>
-        <members>SiteLogin</members>
-        <name>ApexComponent</name>
+        <members>AdNetworkCampaign_CampaignNotes</members>
+        <members>BandwidthExceeded</members>
+        <members>ChatterAnswersForgotPasswordConfirm</members>
+        <members>CommunitiesLogin</members>
+        <members>CommunitiesTemplate</members>
+        <members>FindNearbyAccountsBulkGeoCode</members>
+        <members>InMaintenance</members>
+        <members>Unauthorized</members>
+        <name>ApexPage</name>
     </types>
     <version>31.0</version>
 </Package>

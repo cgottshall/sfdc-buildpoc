@@ -1,0 +1,31 @@
+<apex:page standardController="Ad_Network_Campaign__c" extensions="AdNetworkCampaign_PublisherExt" showHeader="true" tabStyle="Ad_Network_Campaign__c">
+    <apex:sectionHeader title="Ad Network Campaign" subtitle="Add/Edit Publishers"/>
+    <apex:messages />
+    <apex:form id="detailForm">
+      <apex:pageBlock title="Ad Network Campaign">
+          <c:AdNetCampaignDetail campaign="{!Ad_Network_Campaign__c}"/>
+      </apex:pageBlock>
+    </apex:form>
+   <apex:form >
+     <apex:pageBlock id="pbPublishers" title="Publisher Accounts">
+       <apex:pageMessages />
+       <apex:pageBlockButtons >
+         <apex:commandButton value="Save" action="{!processSelected}"/>
+       </apex:pageBlockButtons>
+       
+       <apex:pageBlockTable value="{!publishers}" var="pp" id="table">
+            <apex:column >
+                <!-- This is our selected Boolean property in our wrapper class -->
+                <apex:inputCheckbox value="{!pp.selected}"/>
+            </apex:column>
+            <apex:column value="{!pp.account.parent.Name}">
+                <apex:facet name="header">Publisher</apex:facet>
+            </apex:column>
+            <!-- This is how we access the account values within our chkAccount container/wrapper -->
+            <apex:column value="{!pp.account.Name}" >
+                <apex:facet name="header">Publishing Site</apex:facet>
+            </apex:column>
+       </apex:pageBlockTable>
+     </apex:pageBlock>
+   </apex:form>
+</apex:page>

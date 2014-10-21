@@ -1,0 +1,22 @@
+<apex:page standardController="Ad_Network_Campaign__c" extensions="AdNetworkCampaign_AttachmentExt" standardStylesheets="true">
+  <apex:variable var="att" value="{!Attachments}"/>
+  <apex:pageBlock >
+    <apex:pageBlockSection id="pbSecAttachments" title="Attachments">
+    <apex:dataTable value="{!att}" var="a" width="100%" id="tblAttList">
+        <apex:column >
+            <apex:facet name="header">File</apex:facet>
+            <apex:outputLink value="/servlet/servlet.FileDownload?file={!a.Id}" target="blank">
+                <apex:outputText value="{!a.Name}"/>
+            </apex:outputLink>
+        </apex:column>
+        <apex:column value="{!a.CreatedBy.Name}">
+            <apex:facet name="header">Added By</apex:facet>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Document Type</apex:facet>
+            [Not Yet Implemented]
+        </apex:column>
+    </apex:dataTable>
+  </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:page>

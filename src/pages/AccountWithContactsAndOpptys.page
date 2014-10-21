@@ -1,0 +1,22 @@
+<apex:page standardController="Account">
+  <apex:pageBlock title="{!account.Name}">
+      <apex:pageBlockSection >
+          <apex:pageBlockSectionItem >
+              <apex:outputLabel >Name</apex:outputLabel>
+              <apex:outputField value="{!account.Name}"/>
+          </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+  </apex:pageBlock>
+  
+  <apex:pageBlock title="Contacts">
+      <apex:pageBlockTable value="{!account.Contacts}" var="contact">
+          <apex:column value="{!contact.Name}"/>
+      </apex:pageBlockTable>
+  </apex:pageBlock>
+  
+  <apex:pageBlock title="Opportunities">
+      <apex:pageBlockTable value="{!account.Opportunities}" var="oppty">
+          <apex:column value="{!oppty.Name}"/>
+      </apex:pageBlockTable>
+  </apex:pageBlock>
+</apex:page>

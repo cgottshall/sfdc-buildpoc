@@ -1,0 +1,24 @@
+<apex:page >
+  <!----------------
+
+Modify the sample code below to create a login page for your self service users. 
+
+----------------->
+
+<FORM ACTION="https://na5.salesforce.com/sserv/login.jsp" METHOD="POST">
+<INPUT TYPE="HIDDEN" NAME="orgId" VALUE="00D70000000Ir5B">
+
+<label for="un">Username:</label>
+<INPUT TYPE="TEXT" id="un" NAME="un"></INPUT>
+<BR>
+</BR>
+<label for="pw">Password:</label>
+<INPUT TYPE="PASSWORD" id="pw" NAME="pw"></INPUT>
+<BR>
+</BR>
+<INPUT TYPE="SUBMIT" VALUE="Login"></INPUT>
+</FORM>
+
+<IFRAME title="Content" SRC="http://na5.salesforce.com/sol/public/search.jsp?orgId=00D70000000Ir5B" WIDTH="928" HEIGHT="360"></IFRAME>
+
+</apex:page>

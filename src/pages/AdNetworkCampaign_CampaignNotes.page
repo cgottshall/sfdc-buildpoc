@@ -1,0 +1,7 @@
+<apex:page standardController="Ad_Network_Campaign__c" extensions="AdNetworkCampaign_NoteExt" standardStylesheets="true">
+  <apex:variable var="cmpNotes" value="{!Notes}"/>
+  <apex:dataList value="{!cmpNotes}" var="n">
+      <apex:outputText value="{!n.Id}"/>
+      <apex:outputText value="{!n.CreatedBy.Name}"/>
+  </apex:dataList>
+</apex:page>

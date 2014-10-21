@@ -1,0 +1,66 @@
+<apex:page standardController="Ad_Network_Campaign_Document__c" extensions="AdNetworkCampaignDocument_Extension" tabStyle="Ad_Network_Campaign__c" action="{!WorkflowCheck}">
+  <apex:sectionHeader title="New Campaign Document"/>
+  <apex:messages rendered="true"/>
+  <apex:pageBlock title="Campaign">
+      <apex:pageBlockSection >
+          <apex:pageBlockSectionItem >
+              <apex:outputLabel >Campaign Name</apex:outputLabel>
+              <apex:outputText >{!Campaign.Name}</apex:outputText>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+              <apex:outputLabel >Advertiser</apex:outputLabel>
+              <apex:outputText >{!Campaign.Advertiser__r.Name}</apex:outputText>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+  </apex:pageBlock>
+  
+  
+  
+  <apex:form id="frmCampaignDocument">
+      <script>
+            function togglePublisherGroupList(selectedValue)
+            {
+                document.getElementById('{!$Component.pbCampaignDocument.pbsDocumentRelationship.publisherGroupOptions}').disabled = (selectedValue != 'PUBLISHER');
+            }
+      </script>
+      <apex:param name="cid" value="{!CampaignId}"/>
+      <apex:pageBlock title="Campaign Document" id="pbCampaignDocument">
+          <apex:outputPanel >Select the Advertiser or Publisher Group to which this document is related</apex:outputPanel>
+            <apex:pageBlockSection id="pbsDocumentRelationship" title="Document Relationship" columns="2" collapsible="false">
+                
+                    <apex:selectRadio id="documentAdvertiserPublisher" layout="pageDirection" onclick="togglePublisherGroupList(this.value);" onchange="togglePublisherGroupList(this.value);" value="{!selectedRelatedEntityType}">
+                        <apex:selectOption itemLabel="Advertiser: {!Campaign.Advertiser__r.Name}" itemValue="ADVERTISER"/>
+                        <apex:selectOption itemLabel="Publisher" itemValue="PUBLISHER"/>
+                    </apex:selectRadio>
+                    <br/>
+                    <apex:selectList id="publisherGroupOptions" disabled="{!selectedRelatedEntityType = 'PUBLISHER'}" value="{!campaignParticipationId}" size="4">
+                        <apex:selectOptions value="{!PublisherRelationshipOptions}"/>
+                    </apex:selectList>
+                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Document Information" columns="1" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Document Type"/>
+                    <apex:selectList multiselect="false" size="1" value="{!SelectedDocumentType}">
+                    <apex:selectOptions value="{!DocumentTypes}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >File</apex:outputLabel>
+                    <apex:inputFile id="file_File" value="{!fileBody}" filename="{!fileName}" required="true"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Note</apex:outputLabel>
+                    <apex:inputTextArea id="documentComment" cols="80" rows="5" value="{!DocumentComment}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:commandButton id="button_Upload" value="Upload" action="{!processUpload}" />
+                    <apex:commandButton id="button_Cancel" value="Cancel" action="{!cancel}" />
+                </apex:pageBlockSectionItem>
+                
+          </apex:pageBlockSection>
+      </apex:pageBlock>
+  </apex:form>  
+</apex:page>

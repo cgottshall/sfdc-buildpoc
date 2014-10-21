@@ -1,0 +1,52 @@
+<apex:page standardController="Ad_Network_Campaign_Participation__c" extensions="AdNetworkCampaignParticipation_Note" tabStyle="Ad_Network_Campaign__c">
+    <apex:variable var="participation" value="{!Ad_Network_Campaign_Participation__c}"/>
+    <apex:pageBlock id="pbParticipationDetail" title="Ad Network Campaign {!participation.RecordType.Name}">
+      <apex:pageBlockSection >
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="{!participation.RecordType.Name}"/>
+          <apex:outputLink value="/{!participation.Account__r.Id}"><apex:outputText value="{!participation.Account__r.Name}"/></apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="Owner"/>
+          <apex:outputLink value="/{!participation.Ad_Network_Campaign__r.Owner.Id}">{!participation.Ad_Network_Campaign__r.Owner.Name}</apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="Campaign"/>
+          <apex:outputLink value="/{!participation.Ad_Network_Campaign__r.Id}"><apex:outputText value="{!participation.Ad_Network_Campaign__r.Name}"/></apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="Created By"/>
+          <apex:outputLink value="/{!participation.CreatedBy.Id}">{!participation.CreatedBy.Name}</apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+          <!--<apex:outputText value="Advertiser"/>
+          <apex:outputText value="{!campaign.Advertiser__c.Name}"/>-->
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="Last Modified By"/>
+          <apex:outputLink value="/{!participation.LastModifiedBy.Id}">{!participation.LastModifiedBy.Name}</apex:outputLink>
+        </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:form id="newNote">
+        <apex:pageBlock title="Notes">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!Save}" value="Save"/>
+                <apex:commandButton action="{!Cancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Add a Note" collapsible="false" columns="1">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="txtTitle" value="Title"/>
+                    <apex:inputText id="txtTitle" value="{!Title}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="txtBody" value="Body"/>
+                    <apex:inputTextarea id="txtBody" value="{!Body}" cols="80" rows="5" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+    </apex:form>
+
+</apex:page>

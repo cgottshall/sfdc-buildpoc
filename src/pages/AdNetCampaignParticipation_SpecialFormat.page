@@ -1,0 +1,13 @@
+<apex:page id="campaignParticipation" standardController="Ad_Network_Campaign_Participation__c" tabStyle="Ad_Network_Campaign__c" showHeader="true">
+  <apex:variable var="participation" value="{!Ad_Network_Campaign_Participation__c}"/>
+  <apex:sectionHeader title="{!participation.Ad_Network_Campaign__r.Name}" subtitle="{!participation.Account__r.Name}"/>
+  <apex:messages id="msgs"/>
+  
+  <c:AdNetParticipationDetail id="participationDetail" participation="{!Ad_Network_Campaign_Participation__c}"/>
+  <c:AdNetParticipationApprovals id="participationApprovals" participationId="{!participation.Id}"/>
+     
+  <c:AdNetParticipation_DocsAndNotes id="participationDocNotes" title="Relationship Documents and Notes" participationId="{!participation.Id}"/>
+  
+  <!-- not sure what the right name is for the history list <apex:relatedList list="Ad_Network_Campaign_Participation_history"/>-->
+  
+</apex:page>

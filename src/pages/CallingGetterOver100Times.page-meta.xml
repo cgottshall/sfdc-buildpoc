@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>19.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Tests what happens if we call a getter that contains a SOQL query more than 100 times. Does SF cache the query results?</description>
+    <label>CallingGetterOver100Times</label>
+</ApexPage>
