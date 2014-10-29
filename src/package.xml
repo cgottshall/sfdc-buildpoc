@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AdNetworkCampaign_CampaignNotes</members>
-        <members>BandwidthExceeded</members>
-        <members>ChatterAnswersForgotPasswordConfirm</members>
+        <members>ANCDocumentList</members>
+        <members>AccountHierarchyPage</members>
+        <members>AdNetworkCampaign_AdvertiserAttachments</members>
+        <members>ChatterAnswersHelp</members>
+        <members>Chatter_XL_Preferences</members>
         <members>CommunitiesLogin</members>
-        <members>CommunitiesTemplate</members>
-        <members>FindNearbyAccountsBulkGeoCode</members>
-        <members>InMaintenance</members>
+        <members>ForgotPasswordConfirm</members>
         <members>Unauthorized</members>
         <name>ApexPage</name>
     </types>
