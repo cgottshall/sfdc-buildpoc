@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ANCDocumentList</members>
-        <members>AccountHierarchyPage</members>
-        <members>AdNetworkCampaign_AdvertiserAttachments</members>
-        <members>ChatterAnswersHelp</members>
-        <members>Chatter_XL_Preferences</members>
-        <members>CommunitiesLogin</members>
-        <members>ForgotPasswordConfirm</members>
-        <members>Unauthorized</members>
+        <members>AdNetworkCampaign</members>
+        <members>AdNetworkCampaign_CampaignNotes</members>
+        <members>AdNetworkCampaign_Detail</members>
+        <members>CommunitiesSelfReg</members>
+        <members>FindNearbyAccountsBulkGeoCode</members>
+        <members>OktaAuthTestHome</members>
+        <members>SiteTemplate</members>
+        <members>StdExceptionTemplate</members>
         <name>ApexPage</name>
     </types>
     <version>31.0</version>
